@@ -1,0 +1,17 @@
+name: deploy project
+on:
+  push:
+    branches:
+      - main
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout the code
+        uses: actions/checkout@v4
+
+      - name: install dependencies
+        run: npm ci
+
+      - name: run linting
+        run: npm lint
