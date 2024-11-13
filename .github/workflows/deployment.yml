@@ -14,4 +14,30 @@ jobs:
         run: npm ci
 
       - name: run linting
-        run: npm lint
+        run: npm run lint
+  test:
+    needs: [lint]
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout the code
+        uses: actions/checkout@v4
+
+      - name: install dependencies
+        run: npm ci
+
+      - name: run unit test
+        run: npm run test --e CI=true
+  deploy:
+    needs: [test]
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout the code
+        uses: actions/checkout@v4
+
+      - name: install dependencies
+        run: npm ci
+
+      - name: npm run build
+        run: |
+          npm run build
+          echo "deploying build for release..."
